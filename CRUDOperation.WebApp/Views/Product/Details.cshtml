@@ -1,0 +1,314 @@
+﻿
+<link href="~/css/style-img-zoom.css" rel="stylesheet" />
+<link href="~/css/style-search.css" rel="stylesheet" />
+
+@{
+//Layout = "_PartialLayout";
+}
+
+
+@model CRUDOperation.Models.Product
+
+
+<div class="row" style="margin-top:20px; margin-left:50px;">
+    <div class="col-lg-2">
+        <h3>Company Logo</h3>
+        @*<img src="~/logo/logo.png" style="height:60px; width:60px; display:inline-block" />*@
+    </div>
+
+    <div class="col-lg-10">
+        <form class="example" action="">
+            <input type="text" placeholder="Search.." name="search">
+            <button type="submit"><i class="fa fa-search"></i></button>
+        </form>
+    </div>
+
+</div>
+
+<div class="row" style="margin-top:40px; margin-left:20px;">
+    <div class="col-lg-12">
+        <div class="col-sm-2">
+            <b><a href="#">Categories</a></b>
+        </div>
+        <div class="col-sm-2">
+            <b><a href="#">Free Shipping</a></b>
+        </div>
+        <div class="col-sm-2">
+            <b><a href="#">Global Collection</a></b>
+        </div>
+        <div class="col-sm-2">
+            <b><a href="#">Grocery Mela</a></b>
+        </div>
+        <div class="col-sm-2">
+            <b><a href="#">Top Up & eStore</a></b>
+        </div>
+        <div class="col-sm-2">
+            <b><a href="#">OnlineMall</a></b>
+        </div>
+    </div>
+
+</div>
+<br />
+<br />
+<div style="border:solid 0.1px white; width:1150px">
+
+</div>
+
+
+
+<div class="container" style="margin-top:50px; background-color:#EEEEEE">
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card " style="width:500px; height:400px">
+                <td style="width:60px;">
+                    @{
+                        if (Model.ImageUrl != null)
+                        {
+                            String img64 = Convert.ToBase64String(Model.ImageUrl);
+                            String img64url = string.Format("data:Image/" + Model.ImageUrl + ";base64,{0}", img64);
+
+                            <img class="card-img-top" id="myimage" src="@img64url" alt="Card image" height="300" width="300" />
+
+                        }
+                        else
+                        {
+                            <img class="card-img-top" src="~/img/default.jpg" alt="Card image" height="300" width="300" />
+                        }
+
+                    }
+
+                </td>
+                @*<div class="card-img-overlay">
+                        <a href="#" id="flip" class="btn btn-primary">Product Details</a>
+                    </div>*@
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="row">
+                <h3>@Model.Name</h3>
+                <a style="color:coral"><h3><b>৳  &nbsp; @Model.Price</b></h3></a>
+            </div>
+            <div class="row">
+                <h3>Quantity Box is Here</h3>
+            </div>
+            <h4><b>--------------------------------------------------------</b></h4>
+            <br />
+            <br />
+            <div class="row">
+                <a asp-controller="cart" asp-action="buy" asp-route-id="@Model.Id" id="divbutton" class="btn" style="width:300px; background-color:#ff6600; color: #fff;">Add To Cart</a>
+            </div>
+            @*<div class="img-zoom-container">
+                    <img id="myimage" src="@Model.ImagePath" width="300" height="240">
+                    <div id="myresult" class="img-zoom-result"></div>
+                </div>*@
+
+        </div>
+
+        <div id="myresult" class="col-md-4 img-zoom-result">
+
+        </div>
+    </div>
+    <div class="container" style="background-color:white; height:400px; width:1058px; margin-left:5px; margin-bottom:5px">
+
+        <div class="row" style="color:#ff6a00; background-color:#E9EAEB; margin-left:5px;margin-right:5px; margin-top:20px;">
+            <div class="col-md-4">
+                <h4><b>&nbsp; Product Description:</b></h4>
+            </div>
+            <div class="col-md-2" style="float:right">
+                <h4><b> Product Code: @Model.ProductCode</b></h4>
+            </div>
+        </div>
+
+        <div class="row" style="margin-top:20px; color:black;">
+            <div class="col-md-4">
+                <h4>@Model.ProductDescription</h4>
+            </div>
+        </div>
+        <div class="row" style="color:#E9EAEB; background-color:#E9EAEB; margin-left:5px;margin-right:5px; margin-top:20px;">
+            .
+        </div>
+
+        <div class="row" style="color:#ff6a00; background-color:#E9EAEB; margin-left:5px;margin-right:5px; margin-top:20px;">
+            <h4><b>&nbsp; Special Note:</b></h4>
+        </div>
+
+    </div>
+    
+</div>
+<br />
+<script src="~/jquery/jquery-3.4.1.min.js"></script>
+<script>
+
+    $(document).ready(function () {
+        $("#flip").click(function () {
+            $("#panel").slideToggle("slow");
+        });
+    });
+</script>
+
+<style>
+    #panel, #flip {
+        padding: 5px;
+        text-align: center;
+        /*background-color: #e5eecc;*/
+        border: solid 1px #c3c3c3;
+    }
+
+    #panel {
+        padding: 50px;
+        display: none;
+    }
+</style>
+
+<script>
+    function imageZoom(imgID, resultID) {
+        var img, lens, result, cx, cy;
+        img = document.getElementById(imgID);
+        result = document.getElementById(resultID);
+        /*create lens:*/
+        lens = document.createElement("DIV");
+        lens.setAttribute("class", "img-zoom-lens");
+        /*insert lens:*/
+        img.parentElement.insertBefore(lens, img);
+        /*calculate the ratio between result DIV and lens:*/
+        cx = result.offsetWidth / lens.offsetWidth;
+        cy = result.offsetHeight / lens.offsetHeight;
+        /*set background properties for the result DIV:*/
+        result.style.backgroundImage = "url('" + img.src + "')";
+        result.style.backgroundSize = (img.width * cx) + "px " + (img.height * cy) + "px";
+        /*execute a function when someone moves the cursor over the image, or the lens:*/
+        lens.addEventListener("mousemove", moveLens);
+        img.addEventListener("mousemove", moveLens);
+        /*and also for touch screens:*/
+        lens.addEventListener("touchmove", moveLens);
+        img.addEventListener("touchmove", moveLens);
+        function moveLens(e) {
+            var pos, x, y;
+            /*prevent any other actions that may occur when moving over the image:*/
+            e.preventDefault();
+            /*get the cursor's x and y positions:*/
+            pos = getCursorPos(e);
+            /*calculate the position of the lens:*/
+            x = pos.x - (lens.offsetWidth / 2);
+            y = pos.y - (lens.offsetHeight / 2);
+            /*prevent the lens from being positioned outside the image:*/
+            if (x > img.width - lens.offsetWidth) { x = img.width - lens.offsetWidth; }
+            if (x < 0) { x = 0; }
+            if (y > img.height - lens.offsetHeight) { y = img.height - lens.offsetHeight; }
+            if (y < 0) { y = 0; }
+            /*set the position of the lens:*/
+            lens.style.left = x + "px";
+            lens.style.top = y + "px";
+            /*display what the lens "sees":*/
+            result.style.backgroundPosition = "-" + (x * cx) + "px -" + (y * cy) + "px";
+        }
+        function getCursorPos(e) {
+            var a, x = 0, y = 0;
+            e = e || window.event;
+            /*get the x and y positions of the image:*/
+            a = img.getBoundingClientRect();
+            /*calculate the cursor's x and y coordinates, relative to the image:*/
+            x = e.pageX - a.left;
+            y = e.pageY - a.top;
+            /*consider any page scrolling:*/
+            x = x - window.pageXOffset;
+            y = y - window.pageYOffset;
+            return { x: x, y: y };
+        }
+    }
+</script>
+<script>
+    // Initiate zoom effect:
+    imageZoom("myimage", "myresult");
+</script>
+
+<body>
+    <div id="panel">
+        <div class="col-lg-12 col-md-12 col-sm-12">
+            <div class="row" style="background-color:dimgray">
+                <div class="col-lg-4 col-md-4 col-sm-4">
+                    <h4><b style="color: orange">General Information</b></h4>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-4 col-md-4 col-sm-4">
+                    <b>Product Name:</b>
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-4">
+                    @Model.Name
+                </div>
+            </div>
+            <div class="row" style="background-color:darkgray">
+                <div class="col-lg-4 col-md-4 col-sm-4">
+                    <b>Model Number:</b>
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-4">
+                    SM-N960F
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-4 col-md-4 col-sm-4">
+                    <b>Model type:</b>
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-4">
+                    Phone
+                </div>
+            </div>
+            <div class="row" style="background-color: silver">
+                <div class="col-lg-4 col-md-4 col-sm-4">
+                    <b>Color:</b>
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-4">
+                    Ocean Blue, Lavender Purple
+                </div>
+            </div>
+            <div class="row" style="background-color:dimgray">
+                <div class="col-lg-4 col-md-4 col-sm-4">
+                    <h4><b style="color:orange">Physical Specifications</b></h4>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-4 col-md-4 col-sm-4">
+                    <b>IP Rating:</b>
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-4">
+                    IP 68 : Totally protected against dust,Protected against the effect of immersion to 1.5m for up to 30 minutes.
+                </div>
+            </div>
+            <div class="row" style="background-color:dimgray">
+                <div class="col-lg-4 col-md-4 col-sm-4">
+                    <h4><b style="color: orange">Operating System</b></h4>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-4 col-md-4 col-sm-4">
+                    <b>Operating System:</b>
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-4">
+                    Android 8.1 (Oreo)
+                </div>
+            </div>
+            <div class="row" style="background-color:dimgray">
+                <div class="col-lg-4 col-md-4 col-sm-4">
+                    <h4><b style="color: orange">Price</b></h4>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-4 col-md-4 col-sm-4">
+                    <b>Product Price:</b>
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-4">
+                    @Model.Price
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+
+<div>
+    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
+    <a asp-action="ProductListIndex">Back to List</a>
+</div>

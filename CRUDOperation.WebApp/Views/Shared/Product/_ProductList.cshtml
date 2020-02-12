@@ -1,0 +1,94 @@
+﻿@model ICollection<CRUDOperation.Models.Product>
+
+@*@model ReflectionIT.Mvc.Paging.PagingList<CRUDOperation.Models.Product>
+@using ReflectionIT.Mvc.Paging*@
+
+@*<nav aria-label="Product Paging">
+    @await this.Component.InvokeAsync("Pager", new { PagingList = this.Model })
+</nav>*@
+
+<div class="row">
+    @* Add by Biplob*@
+    <p>
+        @using (Html.BeginForm("Index", "Product", FormMethod.Get))
+        {
+            <b>Search By:</b>
+            @Html.RadioButton("searchBy", "Name", true) <text>Name</text><a>&nbsp;</a>
+            @Html.RadioButton("searchBy", "Price", false) <text>Price</text><a>&nbsp;</a>
+            @Html.RadioButton("searchBy", "CategoryName", false) <text>CategoryName</text><a>&nbsp;</a>
+            @Html.TextBox("search")<input type="submit" value="Search" />
+        }
+
+    </p>
+    <table class="table table-striped table-responsive table-hover table-condensed table-bordered">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Price</th>
+                @*<th>Expiry Date</th>*@
+                <th>IsActive</th>
+                <th>Category Name</th>
+                <th>Stocks</th>
+                <th>Images</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var product in Model)
+            {
+                <tr class="text-center">
+                    <td>@product.Name</td>
+                    <td>@product.Price</td>
+                    @*<td>@product.ExpireDate</td>*@
+                    <td>@product.IsActive</td>
+                    @{
+                        //TODO Sub category name showing
+                    }
+                    <td>
+                        @if (product.Category.ParentId != null && product.Category.ParentId > 0)
+                        {
+                            @(product.Category.Parent.Name + "->" + product.Category.Name);
+                        }
+                        else
+                        {
+                            @product.Category.Name;
+                        }
+                    </td>
+                    <td>@product.InStock</td>
+
+                    <td style="width:60px;">
+                        @{ @*Display Image*@
+
+                        if (product.ImagePath != null)
+                        {
+                            @*String img64 = Convert.ToBase64String(product.ImageUrl);
+                                String img64url = string.Format("data:Image/" + product.ImageUrl + ";base64,{0}", img64);
+
+                                <img src="@img64url" style="height:50px; width: 50px;" />*@
+
+
+                            <img src="~/@product.ImagePath" style="height:50px; width: 50px;" />
+
+                        }
+                        else
+                        {
+                            <img src="~/img/default.jpg" style="height:50px; width: 50px;" />
+                        }
+                        }
+                    </td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@product.Id" class="btn btn-success"><span><strong><i class="fa fa-edit"> Edit</i></strong></span></a>
+                        <a asp-controller="Product" asp-action="Delete" asp-route-id="@product.Id" class="btn btn-danger" onclick="return confirm('Are you sure ,You want to delete ? Product : @product.Name')" id="Delete"><span><i class="fa fa-trash-o"><strong> Delete</strong></i></span></a>
+
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    @*<p><h4><b class="text-danger">If You want to add a new Product Please Click Create Product Button.</b></h4></p>*@
+
+</div>
+
+@*<nav aria-label="Product Paging">
+    <vc:pager paging-List="@Model"/>
+</nav>*@

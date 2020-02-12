@@ -1,0 +1,12 @@
+﻿@model ICollection<CRUDOperation.Models.Product>
+
+
+
+<div class="container">
+    <h1>Product List</h1>
+    <div class="row">
+        <a href="/product/create" class="btn btn-primary btn-row"><i class=" fa fa-plus-square"></i>  Create Product</a>
+    </div>
+
+    <partial name="~/Views/Shared/Product/_ProductList.cshtml" model="Model" />
+</div>

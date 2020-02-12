@@ -1,0 +1,148 @@
+﻿@model CRUDOperation.Models.RazorViewModels.Product.ProductCreateViewModel
+
+
+@{
+    Layout = "_Layout";
+}
+
+
+<form asp-controller="Product" asp-action="Create" method="post" enctype="multipart/form-data">
+    @*upload image*@
+    <div class="container">
+        <div class="form-horizontal">
+            <div class="col-lg-12 col-md-12 col-sm-12">
+                <div class="col-lg-8 col-md-8 col-sm-8">
+                    <div class="row">
+                        <div class="form-group col-md-12">
+                            <label for="Name" class="col-md-2">Name:</label>
+                            <div class="col-md-10">
+                                <input type="text" asp-for="Name" class="form-control" placeholder="Enter Your Name" />
+                                <span asp-validation-for="Name" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <br />
+                    <div class="row">
+                        <div class="form-group col-md-12">
+                            <label for="Price" class="col-md-2">Price:</label>
+                            <div class="col-md-10">
+                                <input type="text" asp-for="Price" class="form-control" placeholder="Enter Your Price" />
+                                <span asp-validation-for="Price" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <br />
+                    @*<div class="row">
+                        <div class="form-group col-md-12">
+                            <label for="ExpireDate" class="col-md-2">Expiry Date:</label>
+                            <div class="col-md-10">
+                                <input type="date" asp-for="ExpireDate" class="form-control" />
+                                <span asp-validation-for="ExpireDate" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>*@
+                    <br />
+                    <div class="row">
+                        <div class="form-group col-md-10">
+                            <label for="IsActive" class="col-md-2">IsActive:</label>
+                            <div class="col-sm-4">
+                                <input type="checkbox" asp-for="IsActive" class="form-control" />
+                                <span asp-validation-for="IsActive" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <br />
+                    <div class="row">
+                        <div class="form-group col-md-12">
+                            <label for="InStock" class="col-md-2">Stock:</label>
+                            <div class="col-md-10">
+                                <input type="text" asp-for="InStock" class="form-control" placeholder="Enter Your Stock Quantity" />
+                                <span asp-validation-for="InStock" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <br />
+                    <div class="row">
+                        <div class="form-group col-md-12">
+                            <label asp-for="Category.Id" class="col-md-2">Category Name:</label>@*Dropdown List Binding*@
+                            <div class="col-md-10">
+                                <select asp-for="CategoryId" asp-items="@ViewBag.SelectList" class="form-control"> </select>
+                                <span asp-validation-for="CategoryId" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <br />
+
+                    <div class="row">
+                        <div class="form-group col-md-12">
+                            <label class="col-md-2"></label>
+                            <div class="col-md-10">
+                                <button type="submit" class="btn btn-primary col-md-3 form-control">Save</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-2 col-sm-2">
+
+                    <div class="form-group">
+                        <label id="Photo" class="col-md-4">Upload Your Photo</label>
+                        <div class="col-md-8">
+                            <img src="#" id="blah" style="width: 130px; height: 130px; border: solid; border-color: gray">
+
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label id="Photo" class="col-md-4"></label>
+                        <div class="col-md-8">
+                            <input id="ImageUrl" asp-for="ImageUrl" type="file" accept="image/gif, image/jpg, image/jpeg, image/png" />
+                            <span asp-validation-for="ImageUrl" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <br />
+                    <div class="form-group">
+                        <label for="ProductDescription"><b>Product Description:</b>(Maximum Length 250 words.)</label>
+                        <textarea type="text" asp-for="ProductDescription" class="form-control" rows="5" id="ProductDescription" style="width:370px;"></textarea>
+                        <span asp-validation-for="ProductDescription" class="text-danger"></span>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+
+<div>
+    <h1>Product List</h1>
+    <partial name="~/Views/Shared/Product/_ProductList.cshtml" model="Model.ProductList" />
+</div>
+
+
+
+@section Scripts {
+
+    <script src="~/jquery-validation-unobtrusive/jquery.validate.js"></script>
+    <script src="~/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    <script type="text/javascript">
+        function readURL(input)
+        {
+            if (input.files && input.files[0])
+            {
+                var reader = new FileReader();
+                reader.onload = function (e)
+                {
+                    $('#blah').attr('src', e.target.result);
+                }
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+        $("#ImageUrl").change(function () {
+            readURL(this);
+        });
+    </script>
+
+}

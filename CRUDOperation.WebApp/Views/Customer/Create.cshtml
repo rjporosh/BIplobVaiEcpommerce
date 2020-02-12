@@ -1,0 +1,116 @@
+﻿
+@model CRUDOperation.Models.RazorViewModels.Customer.CustomerCreateViewModel
+
+
+@{
+    Layout = "_Layout";
+}
+@*<partial name="~/Views/Shared/Common/_SuccessMessage.cshtml" />
+<partial name="~/Views/Shared/Common/_ErrorMessage.cshtml" />*@
+
+
+<form method="post">
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12">
+
+                <button id="btnShowModal" type="button" class="btn btn-primary btn-row  fa fa-plus-square">  Create New Customer</button>
+
+                <div class="modal fade" tabindex="-1" id="loginModal"
+                     data-keyboard="false" data-backdrop="static">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal">
+                                    ×
+                                </button>
+                                <h4 class="modal-title">Create Customer</h4>
+                            </div>
+                            <div class="modal-body">
+                                @*<form method="post">*@
+                                    <div class="container">
+                                        <div class="form-horizontal">
+                                            <div class="row">
+                                                <div class="form-group col-md-12">
+                                                    <label for="Name" class="col-md-2">Name:</label>
+                                                    <div class="col-md-10">
+                                                        <input type="text" asp-for="Name" class="form-control" placeholder="Enter Your Name" />
+                                                        <span asp-validation-for="Name" class="text-danger"></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <br />
+                                            <div class="row">
+                                                <div class="form-group col-md-12">
+                                                    <label for="Address" class="col-md-2">Address:</label>
+                                                    <div class="col-md-10">
+                                                        <input type="text" asp-for="Address" class="form-control" placeholder="Enter Your Address" />
+                                                        <span asp-validation-for="Address" class="text-danger"></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <br />
+                                            <div class="row">
+                                                <div class="form-group col-md-12">
+                                                    <label for="LoyaltyPoint" class="col-md-2">LoyaltyPoint:</label>
+                                                    <div class="col-md-10">
+                                                        <input type="text" asp-for="LoyaltyPoint" class="form-control" />
+                                                        <span asp-validation-for="LoyaltyPoint" class="text-danger"></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <br />
+                                            <div class="row">
+                                                <div class="form-group col-md-12">
+                                                    <label for="Phone" class="col-md-2">Phone No:</label>
+                                                    <div class="col-md-10">
+                                                        <input type="text" asp-for="Phone" class="form-control" placeholder="Enter Your Phone No" />
+                                                        <span asp-validation-for="Phone" class="text-danger"></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @*</form>*@
+                            </div>
+                            <div class="modal-footer">
+                                <input type="submit" value="Save" class="btn btn-primary" />
+                                <button type="button" id="btnHideModal" class="btn btn-primary button button4">Hide</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</form>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+@*<script src="~/jquery/jquery-3.4.1.min.js"></script>*@
+<script src="~/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#btnShowModal").click(function () {
+            $("#loginModal").modal('show');
+        });
+
+        $("#btnHideModal").click(function () {
+            $("#loginModal").modal('hide');
+        });
+    });
+</script>
+
+<div>
+    <h1>Customer List</h1>
+    <partial name="~/Views/Shared/Customer/_CustomerList.cshtml" model="Model.CustomerList" />
+</div>
+
+
+
+@section Scripts {
+
+    <script src="~/jquery-validation-unobtrusive/jquery.validate.js"></script>
+    <script src="~/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+
+
+}

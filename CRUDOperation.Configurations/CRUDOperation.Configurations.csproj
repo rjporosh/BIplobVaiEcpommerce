@@ -1,0 +1,20 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="7.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication" Version="2.2.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\CRUDOperation.Abstractions\CRUDOperation.Abstractions.csproj" />
+    <ProjectReference Include="..\CRUDOperation.BLL\CRUDOperation.BLL.csproj" />
+    <ProjectReference Include="..\CRUDOperation.DatabaseContext\CRUDOperation.DatabaseContext.csproj" />
+    <ProjectReference Include="..\CRUDOperation.Models\CRUDOperation.Models.csproj" />
+    <ProjectReference Include="..\CRUDOperation.Repositories\CRUDOperation.Repositories.csproj" />
+  </ItemGroup>
+
+</Project>
