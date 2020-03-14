@@ -86,11 +86,14 @@ namespace CRUDOperation.WebApp.Controllers
                 if (result.Succeeded)
                 {
                     await signInManager.SignInAsync(user, isPersistent: false).ConfigureAwait(true);
-                    return RedirectToAction("_cardView", "Product");
+                    return RedirectToAction("Index", "Home");
                 }
-                foreach (var error in result.Errors)
+                else
                 {
-                    ModelState.AddModelError("", error.Description);
+                    foreach (var error in result.Errors)
+                    {
+                        ModelState.AddModelError("", error.Description);
+                    }
                 }
             }
             return View(model);
@@ -129,7 +132,7 @@ namespace CRUDOperation.WebApp.Controllers
                 var result = await signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, false).ConfigureAwait(true);
                 if (result.Succeeded)
                 {
-                    return RedirectToAction("_cardView", "Product");
+                    return RedirectToAction("Index", "Home");
                 }
                 ModelState.AddModelError(string.Empty, "Invalid User Name Or Password");
             }
